@@ -1,0 +1,22 @@
+{
+  "name": "JobTimerIcons",
+  "css_prefix_text": "",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "ad33e708f4d2e25c5056c931da1528d6",
+      "css": "ok-circled2",
+      "code": 59392,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "5ecf78a4db6820f2a13f641c0ef9801a",
+      "css": "angle_double_right",
+      "code": 61697,
+      "src": "fontawesome5"
+    }
+  ]
+}
