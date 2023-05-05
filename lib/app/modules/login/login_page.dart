@@ -1,6 +1,7 @@
 import 'package:asuka/asuka.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import 'controller/login_controller.dart';
 
@@ -29,6 +30,7 @@ class LoginPage extends StatelessWidget {
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
+              end: Alignment.bottomCenter,
               colors: [
                 Color(0XFF0092B9),
                 Color(0XFF0167B2),
@@ -39,7 +41,16 @@ class LoginPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/logo.png'),
+                Image.asset('assets/images/logo.png')
+                    .animate(
+                      onPlay: (controller) => controller.repeat(),
+                    )
+                    .shake(delay: 2000.ms)
+                    .then(),
+                const SizedBox(
+                  height: 10,
+                ),
+                Image.asset('assets/images/logo-text.png'),
                 SizedBox(height: screenSize.height * .1),
                 SizedBox(
                   width: screenSize.width * .8,
