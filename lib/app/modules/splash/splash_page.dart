@@ -14,11 +14,11 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        Modular.to.navigate('/login');
-      } else {
-        Modular.to.navigate('/home');
-      }
+      // if (user == null) {
+      //   Modular.to.navigate('/login');
+      // } else {
+      Modular.to.navigate('/home');
+      // }
     });
   }
 
