@@ -17,13 +17,18 @@ const ProjectSchema = CollectionSchema(
   name: r'Project',
   id: 3302999628838485849,
   properties: {
-    r'name': PropertySchema(
+    r'estimate': PropertySchema(
       id: 0,
+      name: r'estimate',
+      type: IsarType.long,
+    ),
+    r'name': PropertySchema(
+      id: 1,
       name: r'name',
       type: IsarType.string,
     ),
     r'status': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'status',
       type: IsarType.byte,
       enumMap: _ProjectstatusEnumValueMap,
@@ -66,8 +71,9 @@ void _projectSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.name);
-  writer.writeByte(offsets[1], object.status.index);
+  writer.writeLong(offsets[0], object.estimate);
+  writer.writeString(offsets[1], object.name);
+  writer.writeByte(offsets[2], object.status.index);
 }
 
 Project _projectDeserialize(
@@ -77,10 +83,11 @@ Project _projectDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Project();
+  object.estimate = reader.readLong(offsets[0]);
   object.id = id;
-  object.name = reader.readString(offsets[0]);
+  object.name = reader.readString(offsets[1]);
   object.status =
-      _ProjectstatusValueEnumMap[reader.readByteOrNull(offsets[1])] ??
+      _ProjectstatusValueEnumMap[reader.readByteOrNull(offsets[2])] ??
           ProjectStatus.em_andamento;
   return object;
 }
@@ -93,8 +100,10 @@ P _projectDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
+      return (reader.readString(offset)) as P;
+    case 2:
       return (_ProjectstatusValueEnumMap[reader.readByteOrNull(offset)] ??
           ProjectStatus.em_andamento) as P;
     default:
@@ -201,6 +210,59 @@ extension ProjectQueryWhere on QueryBuilder<Project, Project, QWhereClause> {
 
 extension ProjectQueryFilter
     on QueryBuilder<Project, Project, QFilterCondition> {
+  QueryBuilder<Project, Project, QAfterFilterCondition> estimateEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'estimate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Project, Project, QAfterFilterCondition> estimateGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'estimate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Project, Project, QAfterFilterCondition> estimateLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'estimate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Project, Project, QAfterFilterCondition> estimateBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'estimate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Project, Project, QAfterFilterCondition> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -516,6 +578,18 @@ extension ProjectQueryLinks
 }
 
 extension ProjectQuerySortBy on QueryBuilder<Project, Project, QSortBy> {
+  QueryBuilder<Project, Project, QAfterSortBy> sortByEstimate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'estimate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Project, Project, QAfterSortBy> sortByEstimateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'estimate', Sort.desc);
+    });
+  }
+
   QueryBuilder<Project, Project, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -543,6 +617,18 @@ extension ProjectQuerySortBy on QueryBuilder<Project, Project, QSortBy> {
 
 extension ProjectQuerySortThenBy
     on QueryBuilder<Project, Project, QSortThenBy> {
+  QueryBuilder<Project, Project, QAfterSortBy> thenByEstimate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'estimate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Project, Project, QAfterSortBy> thenByEstimateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'estimate', Sort.desc);
+    });
+  }
+
   QueryBuilder<Project, Project, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -582,6 +668,12 @@ extension ProjectQuerySortThenBy
 
 extension ProjectQueryWhereDistinct
     on QueryBuilder<Project, Project, QDistinct> {
+  QueryBuilder<Project, Project, QDistinct> distinctByEstimate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'estimate');
+    });
+  }
+
   QueryBuilder<Project, Project, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -601,6 +693,12 @@ extension ProjectQueryProperty
   QueryBuilder<Project, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<Project, int, QQueryOperations> estimateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'estimate');
     });
   }
 

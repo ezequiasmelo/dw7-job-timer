@@ -10,6 +10,8 @@ class Project {
   Id? id = Isar.autoIncrement;
 
   late String name;
+  late int estimate;
+
   @enumerated
   late ProjectStatus status;
 
