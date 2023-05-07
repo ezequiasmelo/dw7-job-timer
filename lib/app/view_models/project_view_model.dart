@@ -1,16 +1,18 @@
+import 'package:isar/isar.dart';
+
 import '../entities/project.dart';
 import '../entities/project_status.dart';
 import 'project_task_view_model.dart';
 
 class ProjectViewModel {
-  final int? id;
+  final Id? id;
   final String name;
   final int estimate;
   final ProjectStatus status;
   final List<ProjectTaskViewModel> tasks;
 
   ProjectViewModel({
-    this.id,
+    this.id = Isar.autoIncrement,
     required this.name,
     required this.estimate,
     required this.status,

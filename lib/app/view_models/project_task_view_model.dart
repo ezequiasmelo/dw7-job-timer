@@ -1,7 +1,9 @@
+import 'package:isar/isar.dart';
+
 import '../entities/project_task.dart';
 
 class ProjectTaskViewModel {
-  int? id;
+  Id? id = Isar.autoIncrement;
   String name;
   int duration;
 
